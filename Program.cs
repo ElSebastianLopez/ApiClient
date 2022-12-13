@@ -1,4 +1,6 @@
 using BankApi.Data;
+using BankApi.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,6 +9,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<ClientService>();
 //Db context
 builder.Services.AddSqlServer<DbBankContext>(builder.Configuration.GetConnectionString("BankConexion"));
 
