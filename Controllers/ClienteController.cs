@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using BankApi.Data;
 using BankApi.Data.BankModels;
+using BankApi.Services;
 
 namespace BankApi.controllers;
 
@@ -9,69 +10,80 @@ namespace BankApi.controllers;
 [Route("[controller]")]
 public class ClienteController:ControllerBase
 {
-    public readonly DbBankContext _contex;
-    public ClienteController(DbBankContext context)
+    public readonly ClientService _service;
+    public ClienteController(ClientService service)
     {
-        _contex=context;
+        _service=service;
         
     }
 
     [HttpGet]
-    public IEnumerable<Client> GetClients()
+    public async Task<IEnumerable<Client>> GetClients()
     {
-        return _contex.Clients.ToList();
+        return await _service.GetAll();
     }
     
     [HttpGet("{id}")] 
-    public ActionResult<Client> GetClientById( int id)
+    public async Task<ActionResult<Client>> GetClientById( int id)
     {
-       var client=_contex.Clients.Find(id);
+       var client=await _service.GetById(id);
        if(client is null)
        {
-        return NotFound(); 
+        return clientNotFound(id); 
        }
        return client;
     }
 
     [HttpPost]
-    public IActionResult CrearClient(Client cliente)
+    public  async Task<IActionResult> CrearClient(Client cliente)
     {
-        _contex.Clients.Add(cliente);
-        _contex.SaveChanges();
-        return CreatedAtAction(nameof(GetClientById),new{id=cliente.Id},cliente);
+        var newclient=await _service.Create(cliente);
+        return CreatedAtAction(nameof(GetClientById),new{id=newclient.Id},newclient);
     }
 
     [HttpPut("{id}")]
-    public IActionResult Actualizar(int id, Client client)
+    public async Task<IActionResult> Actualizar(int id, Client client)
     {
         if(id!=client.Id){
-            return BadRequest();            
+            return BadRequest(new{
+                message=$"El ID =({id}) de la url no coincide con el id ({client.Id}) del cuerpo de la solicitud"
+                });            
         }
-        var existeCliente=_contex.Clients.Find(id);
-        if(existeCliente is null){
-            return NotFound();
+
+        var existeCliente=await _service.GetById(id);
+        if(existeCliente is not null){
+            await _service.Update(id,client);
+            return NoContent();
         }
-        existeCliente.Name=client.Name;
-        existeCliente.Email=client.Email;
-        existeCliente.PhoneNumber=client.PhoneNumber;
-        _contex.SaveChanges();
-        return NoContent();
+        else
+        {
+            return clientNotFound(id);
+        }
+
+       
+        
     }
 
     [HttpDelete("{id}")]    
-    public IActionResult EliminarCliente(int id)
+    public async Task<IActionResult> EliminarCliente(int id)
     {
-        var existeCliente=_contex.Clients.Find(id);
+        var existeCliente=await _service.GetById(id);
 
-        if(existeCliente is null)
+        if(existeCliente is not null)
         {
-             return NotFound();
+            await _service.Delete(id);
+            return Ok();
         }
-        _contex.Clients.Remove(existeCliente);
-        _contex.SaveChanges();
-
-        return Ok();
+        else
+        {
+            return clientNotFound(id);
+        }
            
+    }
+
+    public NotFoundObjectResult clientNotFound(int id)
+    {
+        return NotFound(new{message=$"El cliente con ID={id} no existe"});
     }
 
 }

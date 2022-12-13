@@ -1,4 +1,6 @@
 using BankApi.Data;
+using BankApi.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,6 +11,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 //Db context
 builder.Services.AddSqlServer<DbBankContext>(builder.Configuration.GetConnectionString("BankConexion"));
+
+//service layer
+builder.Services.AddScoped<ClientService>();
 
 var app = builder.Build();
 
