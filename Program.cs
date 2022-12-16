@@ -9,7 +9,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<ClientService>();
+//builder.Services.AddScoped<ClientService>();
+builder.Services.AddScoped<AccountService>();
+builder.Services.AddScoped<AccountTypeService>();
 //Db context
 builder.Services.AddSqlServer<DbBankContext>(builder.Configuration.GetConnectionString("BankConexion"));
 

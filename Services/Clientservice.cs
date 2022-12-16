@@ -52,3 +52,8 @@ public class ClientService{
     }
 
 }
+
+// //service layer
+// builder.Services.AddScoped<ClientService>();
+// builder.Services.AddScoped<AccountService>();
+// builder.Services.AddScoped<AccountTypeService>();
