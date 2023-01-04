@@ -25,8 +25,17 @@ public partial class DbBankContext : DbContext
     public virtual DbSet<Client> Clients { get; set; }
 
     public virtual DbSet<TransactionType> TransactionTypes { get; set; }
+    public  DbSet<Administrator> Administrator { get; set; }
 
-    
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseSqlServer("Data Source=REYKMTM\\SQLEXPRESS;Initial Catalog=DBBank;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+        }
+    }
+
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Account>(entity =>

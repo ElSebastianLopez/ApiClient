@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "sGoMetBSvCUDxthdW12kh+FGqpIAejgcV2EHa2iDflnOtJB9RExTTHwfnTTePUu/JE6x5V4pRnumR5NbqXWzuw==",
+  "dgSpecHash": "k6ZDtJkWKNrlGAGcfEfaow6gs9wXPeAHozj5IIywWU7gI1knWsUY7ZEDsBHzTiGxp30Z4ekK+H09Nqxy0eThYg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\elpan\\Documents\\proyectos ajenos\\ApiClient\\BankApi.csproj",
+  "projectFilePath": "C:\\Users\\elpan\\OneDrive\\Documentos\\proyectos ajenos\\ApiClient\\BankApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\elpan\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\elpan\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
